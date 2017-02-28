@@ -1,0 +1,9 @@
+/node_modules
+/src
+/.eslintrc
+/.babelrc
+/.travis.yml
+/.npmignore
+/.wcal.png
+/.webpack.config.js
+/.yarn.lock

@@ -22,8 +22,14 @@
 
 ---
 ```
-yarn global add wcal
+npm install wcal -g
 ```
+
+<p align="center">
+  <a href="https://github.com/reimertz/wcal">
+    <img alt="wcal" src="wcal.gif" width="750">
+  </a>
+</p>
 
 
 ```

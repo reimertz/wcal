@@ -1,6 +1,6 @@
 {
   "name": "wcal",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a time-tracking cli derived from cal",
   "main": "index.js",
   "bin": {
