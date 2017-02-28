@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/reimertz/wcal">
-    <img alt="wcal" src="wcal.png" width="500">
+    <img alt="wcal" src="wcal.png" width="200">
   </a>
 </p>
 
