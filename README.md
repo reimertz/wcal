@@ -21,6 +21,10 @@
 </p>
 
 ---
+```
+yarn global add wcal
+```
+
 
 ```
 wcal help
