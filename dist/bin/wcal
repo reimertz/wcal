@@ -1,0 +1,1560 @@
+#!/usr/bin/env node
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var wcal = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+	    var fileExists;
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            _context.t0 = _[0];
+	            _context.next = _context.t0 === 'init' ? 3 : _context.t0 === 'add' ? 4 : _context.t0 === 'edit' ? 5 : _context.t0 === 'remove' ? 6 : _context.t0 === 'help' ? 7 : _context.t0 === 'list' ? 8 : 9;
+	            break;
+
+	          case 3:
+	            return _context.abrupt('return', (0, _wcalInit.init)(_));
+
+	          case 4:
+	            return _context.abrupt('return', (0, _wcalAdd.add)(_));
+
+	          case 5:
+	            return _context.abrupt('return', (0, _wcalEdit.edit)(_[1]));
+
+	          case 6:
+	            return _context.abrupt('return', (0, _wcalRemove.remove)(_[1]));
+
+	          case 7:
+	            return _context.abrupt('return', (0, _wcalHelp.help)(_));
+
+	          case 8:
+	            return _context.abrupt('return', (0, _wcalList.list)(_[1], _[2]));
+
+	          case 9:
+	            _context.next = 11;
+	            return (0, _store.checkIfStoreExists)();
+
+	          case 11:
+	            fileExists = _context.sent;
+
+	            if (fileExists) {
+	              _context.next = 16;
+	              break;
+	            }
+
+	            return _context.abrupt('return', (0, _wcalInit.init)());
+
+	          case 16:
+	            return _context.abrupt('return', (0, _wcalList.list)());
+
+	          case 17:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, this);
+	  }));
+
+	  return function wcal() {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+	var _minimist2 = __webpack_require__(22);
+
+	var _minimist3 = _interopRequireDefault(_minimist2);
+
+	var _wcalList = __webpack_require__(14);
+
+	var _wcalInit = __webpack_require__(13);
+
+	var _wcalAdd = __webpack_require__(10);
+
+	var _wcalEdit = __webpack_require__(11);
+
+	var _wcalRemove = __webpack_require__(15);
+
+	var _wcalHelp = __webpack_require__(12);
+
+	var _store = __webpack_require__(4);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _minimist = (0, _minimist3.default)(process.argv.slice(2)),
+	    _ = _minimist._;
+
+	wcal();
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	module.exports = require("babel-runtime/helpers/asyncToGenerator");
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = require("babel-runtime/regenerator");
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	module.exports = require("chalk");
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.persistStore = exports.getStore = exports.checkIfStoreExists = exports.Store = exports.Timestamp = undefined;
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _immutable = __webpack_require__(21);
+
+	var _immutable2 = _interopRequireDefault(_immutable);
+
+	var _fsPromise = __webpack_require__(20);
+
+	var _fsPromise2 = _interopRequireDefault(_fsPromise);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var FILE_NAME = './wcal.json';
+
+	var Timestamp = exports.Timestamp = _immutable2.default.Record({
+	  id: 0,
+	  hours: 0,
+	  when: '',
+	  message: ''
+	});
+
+	var Store = exports.Store = _immutable2.default.Record({
+	  company: '',
+	  description: '',
+	  rate: 0,
+	  currency: '',
+	  timestamps: []
+	});
+
+	var checkIfStoreExists = exports.checkIfStoreExists = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+	    var fileName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : FILE_NAME;
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            return _context.abrupt('return', _fsPromise2.default.exists('./' + fileName));
+
+	          case 1:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined);
+	  }));
+
+	  return function checkIfStoreExists() {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+	var getStore = exports.getStore = function () {
+	  var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+	    var fileName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : FILE_NAME;
+	    var fileExists, json, store, timestamps, recordifiedTimestamps;
+	    return _regenerator2.default.wrap(function _callee2$(_context2) {
+	      while (1) {
+	        switch (_context2.prev = _context2.next) {
+	          case 0:
+	            _context2.next = 2;
+	            return checkIfStoreExists();
+
+	          case 2:
+	            fileExists = _context2.sent;
+
+	            if (fileExists) {
+	              _context2.next = 5;
+	              break;
+	            }
+
+	            throw new Error('wcal.json doesn\'t exist in this directory');
+
+	          case 5:
+	            _context2.next = 7;
+	            return _fsPromise2.default.readJSON(fileName);
+
+	          case 7:
+	            json = _context2.sent;
+	            store = new Store(json);
+	            timestamps = store.timestamps;
+	            recordifiedTimestamps = _immutable2.default.List(timestamps.map(function (ts) {
+	              return new Timestamp(ts);
+	            }));
+	            return _context2.abrupt('return', store.set('timestamps', recordifiedTimestamps));
+
+	          case 12:
+	          case 'end':
+	            return _context2.stop();
+	        }
+	      }
+	    }, _callee2, undefined);
+	  }));
+
+	  return function getStore() {
+	    return _ref2.apply(this, arguments);
+	  };
+	}();
+
+	var persistStore = exports.persistStore = function () {
+	  var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(store) {
+	    var fileName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : FILE_NAME;
+	    var newStore;
+	    return _regenerator2.default.wrap(function _callee3$(_context3) {
+	      while (1) {
+	        switch (_context3.prev = _context3.next) {
+	          case 0:
+	            _context3.prev = 0;
+	            _context3.next = 3;
+	            return _fsPromise2.default.writeJSON(fileName, store.toJS());
+
+	          case 3:
+	            newStore = _context3.sent;
+	            return _context3.abrupt('return', newStore);
+
+	          case 7:
+	            _context3.prev = 7;
+	            _context3.t0 = _context3['catch'](0);
+	            throw new Error(_context3.t0);
+
+	          case 10:
+	          case 'end':
+	            return _context3.stop();
+	        }
+	      }
+	    }, _callee3, undefined, [[0, 7]]);
+	  }));
+
+	  return function persistStore(_x3) {
+	    return _ref3.apply(this, arguments);
+	  };
+	}();
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _promise = __webpack_require__(7);
+
+	var _promise2 = _interopRequireDefault(_promise);
+
+	var _set = __webpack_require__(18);
+
+	var _set2 = _interopRequireDefault(_set);
+
+	exports.default = askForInput;
+
+	var _ansiEscapes = __webpack_require__(16);
+
+	var _ansiEscapes2 = _interopRequireDefault(_ansiEscapes);
+
+	var _chalk = __webpack_require__(3);
+
+	var _chalk2 = _interopRequireDefault(_chalk);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//Cred to zeit.co and their email-input thingy. <3
+	function askForInput() {
+	  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+	      _ref$question = _ref.question,
+	      question = _ref$question === undefined ? '> Enter your email: ' : _ref$question,
+	      _ref$defaultAnswer = _ref.defaultAnswer,
+	      defaultAnswer = _ref$defaultAnswer === undefined ? '' : _ref$defaultAnswer,
+	      _ref$appendNewline = _ref.appendNewline,
+	      appendNewline = _ref$appendNewline === undefined ? true : _ref$appendNewline,
+	      _ref$forceLowerCase = _ref.forceLowerCase,
+	      forceLowerCase = _ref$forceLowerCase === undefined ? true : _ref$forceLowerCase,
+	      _ref$resolveChars = _ref.resolveChars,
+	      resolveChars = _ref$resolveChars === undefined ? new _set2.default(['\r']) : _ref$resolveChars,
+	      _ref$abortChars = _ref.abortChars,
+	      abortChars = _ref$abortChars === undefined ? new _set2.default(['\x03']) : _ref$abortChars;
+
+	  return new _promise2.default(function (resolve, reject) {
+	    var isRaw = process.stdin.se;
+
+	    process.stdout.write(_chalk2.default.dim(question) + defaultAnswer);
+	    process.stdin.setRawMode(true);
+	    process.stdin.resume();
+
+	    var val = defaultAnswer;
+	    var caretOffset = 0;
+
+	    var ondata = function ondata(v) {
+	      var s = v.toString();
+
+	      // abort upon ctrl+C
+	      if (abortChars.has(s)) {
+	        restore();
+	        return reject(new Error('User abort'));
+	      } else if ('\x1B[D' === s) {
+	        if (val.length > Math.abs(caretOffset)) {
+	          caretOffset--;
+	        }
+	      } else if ('\x1B[C' === s) {
+	        if (caretOffset < 0) {
+	          caretOffset++;
+	        }
+	      } else if ('\x08' === s || '\x7f' === s) {
+	        // delete key needs splicing according to caret position
+	        val = val.substr(0, val.length + caretOffset - 1) + val.substr(val.length + caretOffset);
+	      } else {
+	        if (resolveChars.has(s)) {
+	          restore();
+	          return resolve(val);
+	        }
+
+	        var add = forceLowerCase ? s.toLowerCase() : s;
+	        val = val.substr(0, val.length + caretOffset) + add + val.substr(val.length + caretOffset);
+	      }
+
+	      process.stdout.write(_ansiEscapes2.default.eraseLines(1) + _chalk2.default.dim(question) + val);
+	      if (caretOffset) {
+	        process.stdout.write(_ansiEscapes2.default.cursorBackward(Math.abs(caretOffset)));
+	      }
+	    };
+
+	    var restore = function restore() {
+	      if (appendNewline) process.stdout.write('\n');
+
+	      process.stdin.setRawMode(isRaw);
+	      process.stdin.pause();
+	      process.stdin.removeListener('data', ondata);
+	    };
+
+	    process.stdin.on('data', ondata);
+	  });
+	}
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	module.exports = require("moment");
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = require("babel-runtime/core-js/promise");
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getNCalString = undefined;
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _promise = __webpack_require__(7);
+
+	var _promise2 = _interopRequireDefault(_promise);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _child_process = __webpack_require__(19);
+
+	var _moment = __webpack_require__(6);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var now = (0, _moment2.default)();
+
+	var getNCalString = exports.getNCalString = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+	    var month = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : now.month() + 1;
+	    var year = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : now.year();
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            return _context.abrupt('return', new _promise2.default(function (resolve, reject) {
+	              (0, _child_process.exec)('ncal -w ' + month + ' ' + year, function (error, stdout, stderr) {
+	                if (error) reject(stderr);else resolve(stdout);
+	              });
+	            }));
+
+	          case 1:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined);
+	  }));
+
+	  return function getNCalString() {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.generateOutput = undefined;
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _values = __webpack_require__(17);
+
+	var _values2 = _interopRequireDefault(_values);
+
+	var _chalk = __webpack_require__(3);
+
+	var _chalk2 = _interopRequireDefault(_chalk);
+
+	var _moment = __webpack_require__(6);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// const center = (title, width) => {
+	//   const padding = new Array(parseInt((width - title.length - 2) / 2)+1).fill(' ').join('')
+
+	//   return `${padding} ${title} ${padding}`
+	// }
+
+	var d = function d(string) {
+	  return _chalk2.default.dim(string);
+	};
+
+	var generateDivider = function generateDivider(length) {
+	  return _chalk2.default.dim(new Array(length).fill('=').join(''));
+	};
+
+	var parseNCalString = function parseNCalString(string) {
+	  var rows = string.split('\n').filter(function (r) {
+	    return r.length > 0;
+	  });
+	  var width = rows.reduce(function (widest, nextRow) {
+	    return Math.max(widest, nextRow.length);
+	  }, 0);
+
+	  var dateArray = rows[0].trim().split(' ');
+	  var date = (0, _moment2.default)().year(dateArray[1]).month(dateArray[0]);
+	  var weekRow = rows[rows.length - 1].trim();
+	  var weeks = weekRow.match(/(\d)+/g).map(function (a) {
+	    return Number(a);
+	  });
+
+	  return {
+	    width: width,
+	    date: date,
+	    weeks: weeks,
+	    rows: rows
+	  };
+	};
+
+	var calculateHours = function calculateHours(weeks, rate, timestamps) {
+	  var hpw = weeks.reduce(function (o, value) {
+	    o[Number(value)] = 0;
+	    return o;
+	  }, {});
+
+	  timestamps.map(function (t) {
+	    var timestampIsoWeek = (0, _moment2.default)(t.when).isoWeek();
+	    hpw[timestampIsoWeek] = hpw[timestampIsoWeek] + Number(t.hours);
+	  });
+
+	  var hpwRow = '' + (0, _values2.default)(hpw).map(function (h, i) {
+	    if (i === 0) return ' ' + h + ' ';
+	    return h.length == 1 ? '' + h : h + '  ';
+	  }).join('');
+
+	  var hours = timestamps.reduce(function (total, next) {
+	    return total + Number(next.hours);
+	  }, 0);
+
+	  var total = hours * Number(rate);
+
+	  return {
+	    hours: hours,
+	    total: total,
+	    hpwRow: hpwRow
+	  };
+	};
+
+	var generateOutput = exports.generateOutput = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ncalOutput, store) {
+	    var company, timestamps, rate, currency, _parseNCalString, width, date, weeks, rows, calendarOutput, calendar, timestampsThisMonth, timestampsRows, _calculateHours, hours, total, hpwRow, divider;
+
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            company = store.company, timestamps = store.timestamps, rate = store.rate, currency = store.currency;
+	            _parseNCalString = parseNCalString(ncalOutput), width = _parseNCalString.width, date = _parseNCalString.date, weeks = _parseNCalString.weeks, rows = _parseNCalString.rows;
+	            calendarOutput = [];
+	            calendar = rows.slice(1, rows.length - 2).map(function (r) {
+	              return _chalk2.default.dim(r.substring(0, 2)) + r.substring(2, r.length - 1);
+	            }).join('\n');
+	            timestampsThisMonth = timestamps.filter(function (t) {
+	              return (0, _moment2.default)(t.when).month() === date.month();
+	            }).sort(function (a, b) {
+	              return a.when < b.when;
+	            });
+	            timestampsRows = timestampsThisMonth.reduce(function (rows, ts) {
+	              var id = ('#' + ts.id + '          ').substring(0, 5);
+	              var hours = (ts.hours + 'h          ').substring(0, 5);
+	              var date = '' + (0, _moment2.default)(ts.when).format("ll");
+
+	              rows.push(id + ' ' + hours + ' ' + date + ' ' + (ts.message.length > 0 ? d(' ' + ts.message) : ''));
+	              rows.push();
+
+	              return rows;
+	            }, ['']);
+	            _calculateHours = calculateHours(weeks, rate, timestampsThisMonth), hours = _calculateHours.hours, total = _calculateHours.total, hpwRow = _calculateHours.hpwRow;
+	            divider = generateDivider(width);
+
+
+	            calendarOutput.push('');
+	            calendarOutput.push(d(company)); // title
+	            calendarOutput.push(rows[0].trim()); // year and month
+	            calendarOutput.push(divider);
+	            calendarOutput.push(calendar); // calendar
+	            calendarOutput.push(divider);
+	            calendarOutput.push(d('W:') + ' ' + rows[rows.length - 1].substring(3)); // weeks
+	            calendarOutput.push(d('H:') + ' ' + hpwRow); // hours per week
+	            calendarOutput.push(divider);
+	            calendarOutput.push(d('Rate:') + ' ' + currency + rate);
+	            calendarOutput.push(d('Total Hours:') + ' ' + hours + 'h');
+	            calendarOutput.push(divider);
+	            calendarOutput.push('' + currency + rate + ' * ' + hours + 'h = ' + currency + total);
+
+	            return _context.abrupt('return', calendarOutput.concat(timestampsRows, ['']).map(function (r) {
+	              return r + '\n';
+	            }));
+
+	          case 22:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined);
+	  }));
+
+	  return function generateOutput(_x, _x2) {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.add = undefined;
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _chalk = __webpack_require__(3);
+
+	var _chalk2 = _interopRequireDefault(_chalk);
+
+	var _moment = __webpack_require__(6);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	var _store = __webpack_require__(4);
+
+	var _askForInput = __webpack_require__(5);
+
+	var _askForInput2 = _interopRequireDefault(_askForInput);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var createTimestamp = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(id) {
+	    var now, hours, day, month, year, date, message;
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            now = (0, _moment2.default)();
+	            _context.next = 3;
+	            return (0, _askForInput2.default)({ question: '◷            hours: ' });
+
+	          case 3:
+	            hours = _context.sent;
+
+	            if (!(!hours || isNaN(Number(hours)))) {
+	              _context.next = 6;
+	              break;
+	            }
+
+	            throw new Error('hours is required and has to be an integer or decimal.');
+
+	          case 6:
+	            _context.next = 8;
+	            return (0, _askForInput2.default)({ question: '◷              day: ', defaultAnswer: String(now.date()) });
+
+	          case 8:
+	            day = _context.sent;
+
+	            if (day) {
+	              _context.next = 11;
+	              break;
+	            }
+
+	            throw new Error('day is required!');
+
+	          case 11:
+	            _context.next = 13;
+	            return (0, _askForInput2.default)({ question: '◷            month: ', defaultAnswer: String(now.month() + 1) });
+
+	          case 13:
+	            month = _context.sent;
+
+	            if (month) {
+	              _context.next = 16;
+	              break;
+	            }
+
+	            throw new Error('month is required!');
+
+	          case 16:
+	            _context.next = 18;
+	            return (0, _askForInput2.default)({ question: '◷             year: ', defaultAnswer: String(now.year()) });
+
+	          case 18:
+	            year = _context.sent;
+
+	            if (year) {
+	              _context.next = 21;
+	              break;
+	            }
+
+	            throw new Error('year is required!');
+
+	          case 21:
+	            date = (0, _moment2.default)().year(year).month(month - 1).date(day).toISOString();
+
+	            if (!(date === 'Invalid date')) {
+	              _context.next = 24;
+	              break;
+	            }
+
+	            throw new Error('has to be a valid date.');
+
+	          case 24:
+	            _context.next = 26;
+	            return (0, _askForInput2.default)({ question: '◷          message: ', defaultAnswer: '' });
+
+	          case 26:
+	            message = _context.sent;
+
+	            if (message) {
+	              _context.next = 29;
+	              break;
+	            }
+
+	            throw new Error('a message is required!');
+
+	          case 29:
+	            return _context.abrupt('return', new _store.Timestamp({
+	              id: id,
+	              hours: hours,
+	              when: date,
+	              message: message
+	            }));
+
+	          case 30:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined);
+	  }));
+
+	  return function createTimestamp(_x) {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+	var add = exports.add = function () {
+	  var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+	    var store, timestamps, newTs;
+	    return _regenerator2.default.wrap(function _callee2$(_context2) {
+	      while (1) {
+	        switch (_context2.prev = _context2.next) {
+	          case 0:
+	            process.stdout.write(_chalk2.default.green('◷             wcal: add\n'));
+
+	            _context2.prev = 1;
+	            _context2.next = 4;
+	            return (0, _store.getStore)();
+
+	          case 4:
+	            store = _context2.sent;
+	            timestamps = store.timestamps;
+	            _context2.next = 8;
+	            return createTimestamp(timestamps.size + 1);
+
+	          case 8:
+	            newTs = _context2.sent;
+	            _context2.next = 11;
+	            return (0, _store.persistStore)(store.set('timestamps', timestamps.push(newTs)));
+
+	          case 11:
+
+	            process.stdout.write(_chalk2.default.green('◷             wcal: done\n'));
+	            _context2.next = 17;
+	            break;
+
+	          case 14:
+	            _context2.prev = 14;
+	            _context2.t0 = _context2['catch'](1);
+
+	            process.stdout.write(_chalk2.default.red('\u25F7            error: ' + _context2.t0.message + '\n'));
+
+	          case 17:
+	          case 'end':
+	            return _context2.stop();
+	        }
+	      }
+	    }, _callee2, undefined, [[1, 14]]);
+	  }));
+
+	  return function add() {
+	    return _ref2.apply(this, arguments);
+	  };
+	}();
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.edit = undefined;
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _chalk = __webpack_require__(3);
+
+	var _chalk2 = _interopRequireDefault(_chalk);
+
+	var _moment = __webpack_require__(6);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	var _store = __webpack_require__(4);
+
+	var _askForInput = __webpack_require__(5);
+
+	var _askForInput2 = _interopRequireDefault(_askForInput);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getId = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+	    var id;
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            _context.next = 2;
+	            return (0, _askForInput2.default)({ question: '◷                #: ' });
+
+	          case 2:
+	            id = _context.sent;
+
+	            if (!(id.length === 0)) {
+	              _context.next = 5;
+	              break;
+	            }
+
+	            throw new Error('# is required.');
+
+	          case 5:
+	            return _context.abrupt('return', id);
+
+	          case 6:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined);
+	  }));
+
+	  return function getId() {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+	var editTimestamp = function () {
+	  var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(timestamp) {
+	    var tsDate, hours, day, month, year, date, message;
+	    return _regenerator2.default.wrap(function _callee2$(_context2) {
+	      while (1) {
+	        switch (_context2.prev = _context2.next) {
+	          case 0:
+	            tsDate = (0, _moment2.default)(timestamp.get('date'));
+	            _context2.next = 3;
+	            return (0, _askForInput2.default)({
+	              question: '◷            hours: ',
+	              defaultAnswer: String(timestamp.get('hours'))
+	            });
+
+	          case 3:
+	            hours = _context2.sent;
+
+	            if (!(!hours || isNaN(Number(hours)))) {
+	              _context2.next = 6;
+	              break;
+	            }
+
+	            throw new Error('hours is required and has to be an integer or decimal.');
+
+	          case 6:
+	            _context2.next = 8;
+	            return (0, _askForInput2.default)({
+	              question: '◷              day: ',
+	              defaultAnswer: String(tsDate.date())
+	            });
+
+	          case 8:
+	            day = _context2.sent;
+
+	            if (day) {
+	              _context2.next = 11;
+	              break;
+	            }
+
+	            throw new Error('day is required!');
+
+	          case 11:
+	            _context2.next = 13;
+	            return (0, _askForInput2.default)({
+	              question: '◷            month: ',
+	              defaultAnswer: String(tsDate.month() + 1)
+	            });
+
+	          case 13:
+	            month = _context2.sent;
+
+	            if (month) {
+	              _context2.next = 16;
+	              break;
+	            }
+
+	            throw new Error('month is required!');
+
+	          case 16:
+	            _context2.next = 18;
+	            return (0, _askForInput2.default)({
+	              question: '◷             year: ',
+	              defaultAnswer: String(tsDate.year())
+	            });
+
+	          case 18:
+	            year = _context2.sent;
+
+	            if (year) {
+	              _context2.next = 21;
+	              break;
+	            }
+
+	            throw new Error('year is required!');
+
+	          case 21:
+	            date = (0, _moment2.default)().year(year).month(month - 1).date(day).toISOString();
+
+	            if (!(date === 'Invalid date')) {
+	              _context2.next = 24;
+	              break;
+	            }
+
+	            throw new Error('has to be a valid date.');
+
+	          case 24:
+	            _context2.next = 26;
+	            return (0, _askForInput2.default)({
+	              question: '◷          message: ',
+	              defaultAnswer: String(timestamp.get('message'))
+	            });
+
+	          case 26:
+	            message = _context2.sent;
+
+	            if (message) {
+	              _context2.next = 29;
+	              break;
+	            }
+
+	            throw new Error('a message is required!');
+
+	          case 29:
+	            return _context2.abrupt('return', new _store.Timestamp({
+	              id: timestamp.id,
+	              hours: hours,
+	              when: date,
+	              message: message
+	            }));
+
+	          case 30:
+	          case 'end':
+	            return _context2.stop();
+	        }
+	      }
+	    }, _callee2, undefined);
+	  }));
+
+	  return function editTimestamp(_x) {
+	    return _ref2.apply(this, arguments);
+	  };
+	}();
+
+	var edit = exports.edit = function () {
+	  var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(argumentId) {
+	    var store, id, timestamps, tsToEdit, tsIndex, editedTs;
+	    return _regenerator2.default.wrap(function _callee3$(_context3) {
+	      while (1) {
+	        switch (_context3.prev = _context3.next) {
+	          case 0:
+	            process.stdout.write(_chalk2.default.green('◷             wcal: edit\n'));
+
+	            _context3.prev = 1;
+	            _context3.next = 4;
+	            return (0, _store.getStore)();
+
+	          case 4:
+	            store = _context3.sent;
+	            _context3.t0 = argumentId;
+
+	            if (_context3.t0) {
+	              _context3.next = 10;
+	              break;
+	            }
+
+	            _context3.next = 9;
+	            return getId();
+
+	          case 9:
+	            _context3.t0 = _context3.sent;
+
+	          case 10:
+	            id = _context3.t0;
+	            timestamps = store.get('timestamps');
+	            tsToEdit = timestamps.find(function (t) {
+	              return t.get('id') == id;
+	            });
+	            tsIndex = timestamps.indexOf(tsToEdit);
+
+	            if (tsToEdit) {
+	              _context3.next = 16;
+	              break;
+	            }
+
+	            throw new Error('no timestamp with #' + id + ' exists.');
+
+	          case 16:
+	            _context3.next = 18;
+	            return editTimestamp(tsToEdit);
+
+	          case 18:
+	            editedTs = _context3.sent;
+	            _context3.next = 21;
+	            return (0, _store.persistStore)(store.mergeIn(['timestamps', tsIndex], editedTs));
+
+	          case 21:
+
+	            process.stdout.write(_chalk2.default.green('◷             wcal: done\n'));
+	            _context3.next = 27;
+	            break;
+
+	          case 24:
+	            _context3.prev = 24;
+	            _context3.t1 = _context3['catch'](1);
+
+	            process.stdout.write(_chalk2.default.red('\u25F7            error: ' + _context3.t1.message + '\n'));
+
+	          case 27:
+	          case 'end':
+	            return _context3.stop();
+	        }
+	      }
+	    }, _callee3, undefined, [[1, 24]]);
+	  }));
+
+	  return function edit(_x2) {
+	    return _ref3.apply(this, arguments);
+	  };
+	}();
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var help = exports.help = function help() {
+	  var output = [];
+
+	  output.push('wcal help');
+	  output.push('');
+	  output.push('wcal <int:month> <int:year>     show wcal');
+	  output.push('wcal init                       init wcal in current dir');
+	  output.push('wcal add                        add new timestamp');
+	  output.push('wcal edit <int:id>              edit a timestamp');
+	  output.push('wcal remove <int:id>            remove a timestamp');
+	  output.push('wcal help                       show help');
+
+	  output.map(function (r) {
+	    return process.stdout.write(r + '\n');
+	  });
+	};
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.init = undefined;
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _chalk = __webpack_require__(3);
+
+	var _chalk2 = _interopRequireDefault(_chalk);
+
+	var _store = __webpack_require__(4);
+
+	var _askForInput = __webpack_require__(5);
+
+	var _askForInput2 = _interopRequireDefault(_askForInput);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var createStore = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+	    var company, description, rate, currency;
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            _context.next = 2;
+	            return (0, _askForInput2.default)({ question: '◷         company: ' });
+
+	          case 2:
+	            company = _context.sent;
+
+	            if (company) {
+	              _context.next = 5;
+	              break;
+	            }
+
+	            throw new Error('company is required');
+
+	          case 5:
+	            _context.next = 7;
+	            return (0, _askForInput2.default)({ question: '◷     description: ' });
+
+	          case 7:
+	            description = _context.sent;
+	            _context.next = 10;
+	            return (0, _askForInput2.default)({ question: '◷            rate: ' });
+
+	          case 10:
+	            rate = _context.sent;
+
+	            if (!(!rate || isNaN(Number(rate)))) {
+	              _context.next = 13;
+	              break;
+	            }
+
+	            throw new Error('rate is required and has to be an integer or decimal.');
+
+	          case 13:
+	            _context.next = 15;
+	            return (0, _askForInput2.default)({ question: '◷        currency: ' });
+
+	          case 15:
+	            currency = _context.sent;
+
+	            if (currency) {
+	              _context.next = 18;
+	              break;
+	            }
+
+	            throw new Error('currency is required');
+
+	          case 18:
+	            return _context.abrupt('return', new _store.Store({
+	              company: company,
+	              description: description,
+	              rate: rate,
+	              currency: currency
+	            }));
+
+	          case 19:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined);
+	  }));
+
+	  return function createStore() {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+	var init = exports.init = function () {
+	  var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+	    var fileExists, newStore;
+	    return _regenerator2.default.wrap(function _callee2$(_context2) {
+	      while (1) {
+	        switch (_context2.prev = _context2.next) {
+	          case 0:
+	            process.stdout.write(_chalk2.default.green('◷            wcal: init\n'));
+
+	            _context2.prev = 1;
+	            _context2.next = 4;
+	            return (0, _store.checkIfStoreExists)();
+
+	          case 4:
+	            fileExists = _context2.sent;
+
+	            if (!fileExists) {
+	              _context2.next = 7;
+	              break;
+	            }
+
+	            throw new Error('wcal.json already exists');
+
+	          case 7:
+	            _context2.next = 9;
+	            return createStore();
+
+	          case 9:
+	            newStore = _context2.sent;
+	            _context2.next = 12;
+	            return (0, _store.persistStore)(newStore);
+
+	          case 12:
+
+	            process.stdout.write(_chalk2.default.green('◷       wcal: ') + 'done!\n');
+	            _context2.next = 18;
+	            break;
+
+	          case 15:
+	            _context2.prev = 15;
+	            _context2.t0 = _context2['catch'](1);
+
+	            process.stdout.write(_chalk2.default.red('\u25F7           error: ' + _context2.t0.message + '\n'));
+
+	          case 18:
+	          case 'end':
+	            return _context2.stop();
+	        }
+	      }
+	    }, _callee2, undefined, [[1, 15]]);
+	  }));
+
+	  return function init() {
+	    return _ref2.apply(this, arguments);
+	  };
+	}();
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.list = undefined;
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _chalk = __webpack_require__(3);
+
+	var _chalk2 = _interopRequireDefault(_chalk);
+
+	var _store = __webpack_require__(4);
+
+	var _ncal = __webpack_require__(8);
+
+	var _printer = __webpack_require__(9);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var list = exports.list = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(month, year) {
+	    var store, ncalString, output;
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            _context.prev = 0;
+	            _context.next = 3;
+	            return (0, _store.getStore)();
+
+	          case 3:
+	            store = _context.sent;
+	            _context.next = 6;
+	            return (0, _ncal.getNCalString)(month, year);
+
+	          case 6:
+	            ncalString = _context.sent;
+	            _context.next = 9;
+	            return (0, _printer.generateOutput)(ncalString, store);
+
+	          case 9:
+	            output = _context.sent;
+
+
+	            output.map(function (r) {
+	              return process.stdout.write(r);
+	            });
+	            _context.next = 16;
+	            break;
+
+	          case 13:
+	            _context.prev = 13;
+	            _context.t0 = _context['catch'](0);
+
+	            process.stdout.write(_chalk2.default.red('\u25F7         ' + _context.t0 + '\n'));
+
+	          case 16:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined, [[0, 13]]);
+	  }));
+
+	  return function list(_x, _x2) {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.remove = undefined;
+
+	var _regenerator = __webpack_require__(2);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(1);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _chalk = __webpack_require__(3);
+
+	var _chalk2 = _interopRequireDefault(_chalk);
+
+	var _store = __webpack_require__(4);
+
+	var _askForInput = __webpack_require__(5);
+
+	var _askForInput2 = _interopRequireDefault(_askForInput);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getId = function () {
+	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+	    var id;
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            _context.next = 2;
+	            return (0, _askForInput2.default)({ question: '◷                #: ' });
+
+	          case 2:
+	            id = _context.sent;
+
+	            if (!(id.length === 0)) {
+	              _context.next = 5;
+	              break;
+	            }
+
+	            throw new Error('# is required.');
+
+	          case 5:
+	            return _context.abrupt('return', id);
+
+	          case 6:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined);
+	  }));
+
+	  return function getId() {
+	    return _ref.apply(this, arguments);
+	  };
+	}();
+
+	var remove = exports.remove = function () {
+	  var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(argumentId) {
+	    var store, id, timestamps, tsToRemove, tsIndex;
+	    return _regenerator2.default.wrap(function _callee2$(_context2) {
+	      while (1) {
+	        switch (_context2.prev = _context2.next) {
+	          case 0:
+	            process.stdout.write(_chalk2.default.green('◷             wcal: remove\n'));
+
+	            _context2.prev = 1;
+	            _context2.next = 4;
+	            return (0, _store.getStore)();
+
+	          case 4:
+	            store = _context2.sent;
+	            _context2.t0 = argumentId;
+
+	            if (_context2.t0) {
+	              _context2.next = 10;
+	              break;
+	            }
+
+	            _context2.next = 9;
+	            return getId();
+
+	          case 9:
+	            _context2.t0 = _context2.sent;
+
+	          case 10:
+	            id = _context2.t0;
+	            timestamps = store.get('timestamps');
+	            tsToRemove = timestamps.find(function (t) {
+	              return t.get('id') == id;
+	            });
+
+	            if (tsToRemove) {
+	              _context2.next = 15;
+	              break;
+	            }
+
+	            throw new Error('no timestamp with #' + id + ' exists.');
+
+	          case 15:
+	            tsIndex = timestamps.indexOf(tsToRemove);
+	            _context2.next = 18;
+	            return (0, _store.persistStore)(store.set('timestamps', timestamps.remove(tsIndex)));
+
+	          case 18:
+
+	            process.stdout.write(_chalk2.default.green('◷             wcal: done\n'));
+	            _context2.next = 24;
+	            break;
+
+	          case 21:
+	            _context2.prev = 21;
+	            _context2.t1 = _context2['catch'](1);
+
+	            process.stdout.write(_chalk2.default.red('\u25F7            error: ' + _context2.t1.message + '\n'));
+
+	          case 24:
+	          case 'end':
+	            return _context2.stop();
+	        }
+	      }
+	    }, _callee2, undefined, [[1, 21]]);
+	  }));
+
+	  return function remove(_x) {
+	    return _ref2.apply(this, arguments);
+	  };
+	}();
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = require("ansi-escapes");
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = require("babel-runtime/core-js/object/values");
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = require("babel-runtime/core-js/set");
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = require("child_process");
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = require("fs-promise");
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = require("immutable");
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	module.exports = require("minimist");
+
+/***/ }
+/******/ ]);
