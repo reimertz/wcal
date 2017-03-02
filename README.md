@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/reimertz/wcal">
-    <img alt="wcal" src="wcal.png" width="200">
+    <img alt="wcal" src="https://github.com/reimertz/wcal/raw/master/wcal.png" width="200">
   </a>
 </p>
 
@@ -27,7 +27,7 @@ npm install wcal -g
 
 <p align="center">
   <a href="https://github.com/reimertz/wcal">
-    <img alt="wcal" src="wcal.gif" width="750">
+    <img alt="wcal" src="https://github.com/reimertz/wcal/raw/master/wcal.gif" width="750">
   </a>
 </p>
 
