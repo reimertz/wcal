@@ -29,7 +29,7 @@ async function wcal (){
       const fileExists = await checkIfStoreExists()
 
       if (!fileExists) return init()
-      else return list()
+      else return list(_[1], _[2])
     }
   }
 }
