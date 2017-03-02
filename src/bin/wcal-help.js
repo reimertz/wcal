@@ -3,7 +3,7 @@ export const help = () => {
 
   output.push('wcal help')
   output.push('')
-  output.push('wcal <int:month> <int:year>     show wcal')
+  output.push('wcal <int:year> <int:month>     show wcal')
   output.push('wcal init                       init wcal in current dir')
   output.push('wcal add                        add new timestamp')
   output.push('wcal edit <int:id>              edit a timestamp')
