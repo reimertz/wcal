@@ -35,10 +35,10 @@ npm install wcal -g
 ```
 wcal help
 
-wcal <int:month> <int:year>     show wcal
-wcal init                       init wcal in current dir
-wcal add                        add new timestamp
-wcal edit <int:id>              edit a timestamp
-wcal remove <int:id>            remove a timestamp
-wcal help                       show help
+wcal list <int:month> <int:year>     show wcal
+wcal init                            init wcal in current dir
+wcal add                             add new timestamp
+wcal edit <int:id>                   edit a timestamp
+wcal remove <int:id>                 remove a timestamp
+wcal help                            show help
 ```
