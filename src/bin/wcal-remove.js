@@ -4,18 +4,18 @@ import { getStore, persistStore } from './helpers/store'
 import askForInput from './helpers/ask-for-input'
 
 const getId = async () => {
-  const id = await askForInput({   question:'◷                #: '})
+  const id = await askForInput({ question: '◷                #: ' })
   if (id.length === 0) throw new Error('# is required.')
 
   return id
 }
 
-export const remove = async (argumentId) => {
+export const remove = async argumentId => {
   process.stdout.write(chalk.green('◷             wcal: remove\n'))
 
   try {
     const store = await getStore()
-    const id = argumentId || await getId()
+    const id = argumentId || (await getId())
     const timestamps = store.get('timestamps')
 
     const tsToRemove = timestamps.find(t => {
@@ -29,9 +29,7 @@ export const remove = async (argumentId) => {
     await persistStore(store.set('timestamps', timestamps.remove(tsIndex)))
 
     process.stdout.write(chalk.green('◷             wcal: done\n'))
-  }
-
-  catch(e) {
+  } catch (e) {
     process.stdout.write(chalk.red(`◷            error: ${e.message}\n`))
   }
 }

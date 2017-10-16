@@ -14,7 +14,7 @@ export const Store = Immutable.Record({
   company: '',
   description: '',
   rate: 0,
-  currency:'',
+  currency: '',
   timestamps: []
 })
 
@@ -25,12 +25,14 @@ export const checkIfStoreExists = async (fileName = FILE_NAME) => {
 export const getStore = async (fileName = FILE_NAME) => {
   const fileExists = await checkIfStoreExists()
 
-  if (!fileExists) throw new Error('wcal.json doesn\'t exist in this directory')
+  if (!fileExists) throw new Error("wcal.json doesn't exist in this directory")
 
   const json = await fsp.readJSON(fileName)
   const store = new Store(json)
   const { timestamps } = store
-  const recordifiedTimestamps = Immutable.List(timestamps.map(ts => new Timestamp(ts)))
+  const recordifiedTimestamps = Immutable.List(
+    timestamps.map(ts => new Timestamp(ts))
+  )
 
   return store.set('timestamps', recordifiedTimestamps)
 }
@@ -40,7 +42,7 @@ export const persistStore = async (store, fileName = FILE_NAME) => {
     const newStore = await fsp.writeJSON(fileName, store.toJS())
 
     return newStore
+  } catch (e) {
+    throw new Error(e)
   }
-  catch(e) { throw new Error(e) }
 }
-

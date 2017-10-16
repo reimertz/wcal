@@ -11,7 +11,7 @@ import { checkIfStoreExists } from './helpers/store'
 
 var { _ } = minimist(process.argv.slice(2))
 
-async function wcal (){
+async function wcal() {
   switch (_[0]) {
     case 'init':
       return init(_)

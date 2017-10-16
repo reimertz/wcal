@@ -9,8 +9,8 @@ import moment from 'moment'
 
 const d = string => chalk.dim(string)
 
-const generateDivider = (length) => {
-  return chalk.dim((new Array(length)).fill('=').join(''))
+const generateDivider = length => {
+  return chalk.dim(new Array(length).fill('=').join(''))
 }
 
 const parseNCalString = string => {
@@ -20,22 +20,24 @@ const parseNCalString = string => {
   }, 0)
 
   const dateArray = rows[0].trim().split(' ')
-  const date = moment().year(dateArray[1]).month(dateArray[0])
-  const weekRow = rows[rows.length-1].trim()
+  const date = moment()
+    .year(dateArray[1])
+    .month(dateArray[0])
+  const weekRow = rows[rows.length - 1].trim()
   const weeks = weekRow.match(/(\d)+/g).map(a => Number(a))
 
   return {
     width,
     date,
     weeks,
-    rows,
+    rows
   }
 }
 
 const calculateHours = (weeks, rate, timestamps) => {
-  const hpw = weeks.reduce((o, value ) => {
-      o[Number(value)] = 0
-      return o
+  const hpw = weeks.reduce((o, value) => {
+    o[Number(value)] = 0
+    return o
   }, {})
 
   timestamps.map(t => {
@@ -43,11 +45,12 @@ const calculateHours = (weeks, rate, timestamps) => {
     hpw[timestampIsoWeek] = hpw[timestampIsoWeek] + Number(t.hours)
   })
 
-  const hpwRow = `${Object.values(hpw).map((h, i) => {
-    if (i === 0) return ` ${h} `
-    return h.length == 1 ? `${h}` : `${h}  `
-  }).join('')}`
-
+  const hpwRow = `${Object.values(hpw)
+    .map((h, i) => {
+      if (i === 0) return ` ${h} `
+      return h.length == 1 ? `${h}` : `${h}  `
+    })
+    .join('')}`
 
   const hours = timestamps.reduce((total, next) => {
     return total + Number(next.hours)
@@ -68,10 +71,10 @@ export const generateOutput = async (ncalOutput, store) => {
 
   const calendarOutput = []
 
-
-  const calendar = rows.slice(1, rows.length-2)
+  const calendar = rows
+    .slice(1, rows.length - 2)
     .map(r => {
-      return chalk.dim(r.substring(0, 2)) + r.substring(2, r.length-1)
+      return chalk.dim(r.substring(0, 2)) + r.substring(2, r.length - 1)
     })
     .join('\n')
 
@@ -80,25 +83,32 @@ export const generateOutput = async (ncalOutput, store) => {
       return moment(t.when).month() === date.month()
     })
     .sort((a, b) => {
-      return a.when < b.when
+      return a.when > b.when
     })
 
-  const timestampsRows = timestampsThisMonth.reduce((rows, ts) => {
-    const id =    `#${ts.id}          `.substring(0, 5)
-    const hours = `${ts.hours}h          `.substring(0, 5)
-    const date =  `${moment(ts.when).format("ll")}`
+  const timestampsRows = timestampsThisMonth.reduce(
+    (rows, ts) => {
+      const id = `#${ts.id}          `.substring(0, 5)
+      const hours = `${ts.hours}h          `.substring(0, 5)
+      const date = `${moment(ts.when).format('ll')}`
 
-    rows.push(`${id} ${hours} ${date} ${ts.message.length > 0 ? d(` ${ts.message}`) : ''}`)
-    rows.push()
+      rows.push(
+        `${id} ${hours} ${date} ${ts.message.length > 0
+          ? d(` ${ts.message}`)
+          : ''}`
+      )
+      rows.push()
 
-    return rows
-  }, [``])
+      return rows
+    },
+    [``]
+  )
 
-  const {
-    hours,
-    total,
-    hpwRow
-  } = calculateHours(weeks, rate, timestampsThisMonth)
+  const { hours, total, hpwRow } = calculateHours(
+    weeks,
+    rate,
+    timestampsThisMonth
+  )
 
   const divider = generateDivider(width)
 
@@ -108,7 +118,7 @@ export const generateOutput = async (ncalOutput, store) => {
   calendarOutput.push(divider)
   calendarOutput.push(calendar) // calendar
   calendarOutput.push(divider)
-  calendarOutput.push(`${d('W:')} ${rows[rows.length-1].substring(3)}`) // weeks
+  calendarOutput.push(`${d('W:')} ${rows[rows.length - 1].substring(3)}`) // weeks
   calendarOutput.push(`${d('H:')} ${hpwRow}`) // hours per week
   calendarOutput.push(divider)
   calendarOutput.push(`${d('Rate:')} ${currency}${rate}`)
@@ -116,6 +126,7 @@ export const generateOutput = async (ncalOutput, store) => {
   calendarOutput.push(divider)
   calendarOutput.push(`${currency}${rate} * ${hours}h = ${currency}${total}`)
 
-  return calendarOutput.concat(timestampsRows, [``]).map(r => {return r + '\n'})
+  return calendarOutput.concat(timestampsRows, [``]).map(r => {
+    return r + '\n'
+  })
 }
-
