@@ -594,7 +594,7 @@
 	              return _chalk2.default.dim(r.substring(0, 2)) + r.substring(2, r.length - 1);
 	            }).join('\n');
 	            timestampsSameMonth = timestamps.filter(function (t) {
-	              return (0, _moment2.default)(t.when).isSame(date.month(), 'month');
+	              return (0, _moment2.default)(t.when).isSame(date, 'month');
 	            }).sort(function (a, b) {
 	              return a.when > b.when;
 	            });

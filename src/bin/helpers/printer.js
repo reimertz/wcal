@@ -80,7 +80,7 @@ export const generateOutput = async (ncalOutput, store) => {
 
   const timestampsSameMonth = timestamps
     .filter(t => {
-      return moment(t.when).isSame(date.month(), 'month')
+      return moment(t.when).isSame(date, 'month')
     })
     .sort((a, b) => {
       return a.when > b.when
