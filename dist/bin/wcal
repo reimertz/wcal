@@ -581,7 +581,7 @@
 
 	var generateOutput = exports.generateOutput = function () {
 	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(ncalOutput, store) {
-	    var company, timestamps, rate, currency, _parseNCalString, width, date, weeks, rows, calendarOutput, calendar, timestampsThisMonth, timestampsRows, _calculateHours, hours, total, hpwRow, divider;
+	    var company, timestamps, rate, currency, _parseNCalString, width, date, weeks, rows, calendarOutput, calendar, timestampsSameMonth, timestampsRows, _calculateHours, hours, total, hpwRow, divider;
 
 	    return _regenerator2.default.wrap(function _callee$(_context) {
 	      while (1) {
@@ -593,12 +593,12 @@
 	            calendar = rows.slice(1, rows.length - 2).map(function (r) {
 	              return _chalk2.default.dim(r.substring(0, 2)) + r.substring(2, r.length - 1);
 	            }).join('\n');
-	            timestampsThisMonth = timestamps.filter(function (t) {
-	              return (0, _moment2.default)(t.when).month() === date.month();
+	            timestampsSameMonth = timestamps.filter(function (t) {
+	              return (0, _moment2.default)(t.when).isSame(date.month(), 'month');
 	            }).sort(function (a, b) {
 	              return a.when > b.when;
 	            });
-	            timestampsRows = timestampsThisMonth.reduce(function (rows, ts) {
+	            timestampsRows = timestampsSameMonth.reduce(function (rows, ts) {
 	              var id = ('#' + ts.id + '          ').substring(0, 5);
 	              var hours = (ts.hours + 'h          ').substring(0, 5);
 	              var date = '' + (0, _moment2.default)(ts.when).format('ll');
@@ -608,7 +608,7 @@
 
 	              return rows;
 	            }, ['']);
-	            _calculateHours = calculateHours(weeks, rate, timestampsThisMonth), hours = _calculateHours.hours, total = _calculateHours.total, hpwRow = _calculateHours.hpwRow;
+	            _calculateHours = calculateHours(weeks, rate, timestampsSameMonth), hours = _calculateHours.hours, total = _calculateHours.total, hpwRow = _calculateHours.hpwRow;
 	            divider = generateDivider(width);
 
 
