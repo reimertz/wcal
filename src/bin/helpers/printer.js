@@ -78,15 +78,15 @@ export const generateOutput = async (ncalOutput, store) => {
     })
     .join('\n')
 
-  const timestampsThisMonth = timestamps
+  const timestampsSameMonth = timestamps
     .filter(t => {
-      return moment(t.when).month() === date.month()
+      return moment(t.when).isSame(date.month(), 'month')
     })
     .sort((a, b) => {
       return a.when > b.when
     })
 
-  const timestampsRows = timestampsThisMonth.reduce(
+  const timestampsRows = timestampsSameMonth.reduce(
     (rows, ts) => {
       const id = `#${ts.id}          `.substring(0, 5)
       const hours = `${ts.hours}h          `.substring(0, 5)
@@ -107,7 +107,7 @@ export const generateOutput = async (ncalOutput, store) => {
   const { hours, total, hpwRow } = calculateHours(
     weeks,
     rate,
-    timestampsThisMonth
+    timestampsSameMonth
   )
 
   const divider = generateDivider(width)
