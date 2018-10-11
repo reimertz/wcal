@@ -8,7 +8,7 @@ const getId = async () => {
   const id = await askForInput({ question: '◷                #: ' })
   if (id.length === 0) throw new Error('# is required.')
 
-  return id
+  return Number(id)
 }
 
 const editTimestamp = async timestamp => {
