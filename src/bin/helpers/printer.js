@@ -72,9 +72,9 @@ export const generateOutput = async (ncalOutput, store) => {
   const calendarOutput = []
 
   const calendar = rows
-    .slice(1, rows.length - 1)
+    .slice(1, rows.length - 1) // remove weeks
     .map(r => {
-      return chalk.dim(r.substring(0, 2)) + r.substring(2, r.length - 1)
+      return chalk.dim(r.substring(0, 2)) + r.substring(2, r.length)
     })
     .join('\n')
 
