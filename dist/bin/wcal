@@ -590,8 +590,9 @@
 	            company = store.company, timestamps = store.timestamps, rate = store.rate, currency = store.currency;
 	            _parseNCalString = parseNCalString(ncalOutput), width = _parseNCalString.width, date = _parseNCalString.date, weeks = _parseNCalString.weeks, rows = _parseNCalString.rows;
 	            calendarOutput = [];
-	            calendar = rows.slice(1, rows.length - 2).map(function (r) {
-	              return _chalk2.default.dim(r.substring(0, 2)) + r.substring(2, r.length - 1);
+	            calendar = rows.slice(1, rows.length - 1) // remove weeks
+	            .map(function (r) {
+	              return _chalk2.default.dim(r.substring(0, 2)) + r.substring(2, r.length);
 	            }).join('\n');
 	            timestampsSameMonth = timestamps.filter(function (t) {
 	              return (0, _moment2.default)(t.when).isSame(date, 'month');
@@ -903,7 +904,7 @@
 	            throw new Error('# is required.');
 
 	          case 5:
-	            return _context.abrupt('return', id);
+	            return _context.abrupt('return', Number(id));
 
 	          case 6:
 	          case 'end':
